@@ -60,8 +60,8 @@ class Account:
         long_orders_total_size = self.order_manager.long_orders.total_size
         short_orders_total_size = self.order_manager.short_orders.total_size
         
-        net_long_size = long_orders_total_size + (self.position.base_asset_size if self.position.direction == OrderDirection.LONG else 0)
-        net_short_size = short_orders_total_size + (self.position.base_asset_size if self.position.direction == OrderDirection.SHORT else 0)
+        net_long_size = long_orders_total_size + (self.position.size if self.position.direction == OrderDirection.LONG else 0)
+        net_short_size = short_orders_total_size + (self.position.size if self.position.direction == OrderDirection.SHORT else 0)
         
         net_size = 0
 
@@ -84,4 +84,7 @@ class Account:
         self.order_manager.clear_orders()
         pnl = self.position.close_position(mark_price)
         self.collateral_manager.add_realized_pnl(pnl)
-        
+    
+    def __str__(self):
+        return (f"Account(symbol={self.symbol}, "
+                f"Total Collateral={self.collateral_manager.total_collateral})")

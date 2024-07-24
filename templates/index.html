@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureProof</title>
+</head>
+<body>
+    <h1>Simulator</h1>
+    <form action="{{ url_for('run_script') }}" method="post">
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required>
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required>
+        <br><br>
+        <label for="start_time">Start Time:</label>
+        <input type="time" id="start_time" name="start_time" value="00:00">
+        <label for="end_time">End Time:</label>
+        <input type="time" id="end_time" name="end_time" value="00:00">
+        <br><br>
+        <label for="strategy_file">Select Strategy:</label>
+        <select id="strategy_file" name="strategy_file" required>
+            {% for file in strategy_files %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">Run simulation</button>
+    </form>
+    <br>
+    <!-- Metrics section -->
+    {% if metrics %}
+        <h2>Metrics</h2>
+        <p>End Balance: {{ metrics.end_balance }}</p>
+        <p>Total Trades: {{ metrics.total_trades }}</p>
+        <p>Total Longs: {{ metrics.total_longs }}</p>
+        <p>Total Shorts: {{ metrics.total_shorts }}</p>
+    {% endif %}
+    <br>
+    <!-- Placeholder for the plot -->
+    {% if plot_div %}
+        <div>{{ plot_div|safe }}</div>
+    {% endif %}
+</body>
+</html>

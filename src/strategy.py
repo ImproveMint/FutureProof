@@ -2,6 +2,7 @@ from abc import ABC
 from typing import List, Dict, Optional, final
 from src.order import BaseOrder, BracketOrder
 from src.account import Account
+from src.metrics import Metrics
 
 class Strategy(ABC):
     def __init__(self, account: Account):
@@ -10,9 +11,13 @@ class Strategy(ABC):
         self.current_price: Optional[float] = None
         self.candles: Optional[List[Dict]] = None
         self.set_default_hyperparameters()
+        self.metrics = Metrics(account.collateral_manager.balance)
         
     @final
     def new_candle(self, candles: List[Dict]):
+        
+        self.metrics.new_candle()
+        
         # passing huge lists of candles seems crazy, is it more efficient to pass a single kline and append it
         self.current_price = candles[-1]["open"]
         self.candles = candles
@@ -68,9 +73,14 @@ class Strategy(ABC):
 
     def should_place_order(self):
         if self.should_long():
-            self.account.add_market_order(self.go_long())
+            order = self.go_long()
+            added_order = self.account.add_market_order(order)
+            self.metrics.new_trade(added_order)
+            
         elif self.should_short():
-            self.account.add_market_order(self.go_short())
+            order = self.go_short()
+            added_order = self.account.add_market_order(order)
+            self.metrics.new_trade(added_order)
 
     def terminate(self):
         """Called when the simulation is done."""

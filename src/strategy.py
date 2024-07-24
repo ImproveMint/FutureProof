@@ -68,7 +68,6 @@ class Strategy(ABC):
 
     def should_place_order(self):
         if self.should_long():
-            print("trade")
             self.account.add_market_order(self.go_long())
         elif self.should_short():
             self.account.add_market_order(self.go_short())

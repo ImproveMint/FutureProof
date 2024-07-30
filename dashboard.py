@@ -27,12 +27,12 @@ def index():
 def run_script():
     # Read the date and time values from the form
     start_date = request.form['start_date']
-    start_time = request.form['start_time']
+    start_time = "00:00"
+    
     end_date = request.form['end_date']
-    end_time = request.form['end_time']
+    end_time = "00:00"
     
     strategy_file = request.form['strategy_file']
-    
     
     # Combine date and time and convert to UTC timestamp in milliseconds
     start_datetime = datetime.strptime(f"{start_date} {start_time}", "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc)
@@ -98,7 +98,7 @@ def get_strategy_class(strategy_file):
     
     return strategy_class
     
-def plot_floats_over_time(asset_price, portfolio, title='Values Over Time', xlabel='Minutes', ylabel1='Asset Price', ylabel2='Portfolio'):
+def plot_floats_over_time(asset_price, portfolio, title='Equity Curve', xlabel='Timeline', ylabel1='Asset Price', ylabel2='Portfolio'):
     # Create figure with secondary y-axis
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 

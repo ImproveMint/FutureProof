@@ -7,51 +7,68 @@
         <h5>Backtest parameters</h5>
     </div>
     <div class="routes-content">
-        <div class="route-item">
-            <form action="/run_script" method="post">
-                <select class="meta-select" id="strategy_file" name="strategy_file">
-                    {% for file in strategy_files %}
-                        <option value="{{ file }}">{{ file }}</option>
-                    {% endfor %}
-                </select>
-                <select class="meta-select">
-                    <option>Binance Perpetual Futures</option>
-                </select>
-                <select class="meta-select">
-                    <option>SOL-USDT</option>
-                    <option>BTC-USDT</option>
-                    <option>ETH-USDT</option>
-                </select>
-                <select class="meta-select" id="timeframe" name="timeframe">
-                    <option>1m</option>
-                    <option>3m</option>
-                    <option>5m</option>
-                    <option>15m</option>
-                    <option>30m</option>
-                    <option>1h</option>
-                    <option>4h</option>
-                    <option>8h</option>
-                    <option>1D</option>
-                </select>
-        </div>
-    </div>
-
-    <div class="sub-header">
-        <h5>Timeline parameters</h5>
-    </div>
-    <div class="routes-content">
-        <div class="route-item">
-            <div class="inline-fields">
-                <label for="start_date" class="route-label">Start Date:</label>
-                <input type="date" id="start_date" name="start_date" class="route-input" value="2024-07-01" required>
-                <label for="end_date" class="route-label">End Date:</label>
-                <input type="date" id="end_date" name="end_date" class="route-input" value="2024-07-08" required>
+        <form action="/run_script" method="post">
+            <div class="route-row">
+                <div class="route-item">
+                    <label for="strategy_file" class="route-label">Strategy:</label>
+                    <select class="meta-select" id="strategy_file" name="strategy_file">
+                        {% for file in strategy_files %}
+                            <option value="{{ file }}">{{ file }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="route-item">
+                    <label for="exchange" class="route-label">Exchange:</label>
+                    <select class="meta-select" id="exchange" name="exchange">
+                        <option>Binance Perpetual Futures</option>
+                    </select>
+                </div>
+                <div class="route-item">
+                    <label for="pair" class="route-label">Pair:</label>
+                    <select class="meta-select" id="pair" name="pair">
+                        <option>SOL-USDT</option>
+                        <option>BTC-USDT</option>
+                        <option>ETH-USDT</option>
+                    </select>
+                </div>
             </div>
-            <button type="submit" class="submit-button">Run Script</button>
-            </form>
-        </div>
+
+            <div class="sub-header">
+                <h5>Timeline parameters</h5>
+            </div>
+            <div class="route-row">
+                <div class="route-item">
+                    <label for="timeframe" class="route-label">Timeframe:</label>
+                    <select class="meta-select" id="timeframe" name="timeframe">
+                        <option>1m</option>
+                        <option>3m</option>
+                        <option>5m</option>
+                        <option>15m</option>
+                        <option>30m</option>
+                        <option>1h</option>
+                        <option>4h</option>
+                        <option>8h</option>
+                        <option>1D</option>
+                    </select>
+                </div>
+                <div class="route-item">
+                    <label for="start_date" class="route-label">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" class="route-input" value="2024-07-01" required>
+                </div>
+                <div class="route-item">
+                    <label for="end_date" class="route-label">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" class="route-input" value="2024-07-08" required>
+                </div>
+            </div>
+            <div class="route-row">
+                <div class="route-item">
+                    <button type="submit" class="submit-button">Run Script</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
+
 <style>
     .routes-container {
         margin: 20px;
@@ -62,15 +79,22 @@
     .routes-content {
         margin-bottom: 20px;
     }
-    .route-item {
+    .route-row {
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 10px;
     }
-    .meta-select, .route-input {
-        margin-bottom: 10px;
+    .route-item {
+        flex: 1;
+        min-width: 200px;
     }
     .route-label {
-        margin-right: 10px;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .meta-select, .route-input {
+        width: 100%;
+        margin-bottom: 10px;
     }
     .submit-button {
         width: 150px;
